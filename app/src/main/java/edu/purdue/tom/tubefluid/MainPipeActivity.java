@@ -137,61 +137,96 @@ public class MainPipeActivity extends Activity {
             public void onClick(View v) {
                 int row = 1;
                 int col = 0;
-                String start = finalButtonGrid[1][0].getText().toString();
-                String end = finalButtonGrid[5][4].getText().toString();
-                Button prevButton;
-                Button currentButton;
-                String prevCommand = "";
-                String currentCommand = start;
-                String nextCommand = "";
+                Button currentButton = finalButtonGrid[row][col];
+                String currentButtonText = "";
+                String currentDirection = "east";
                 while(true) {
-                    if (currentButton.getText().toString().equals(actions[0])) {
-                        if (row - 1 >= 0 && !finalButtonGrid[row - 1][col].equals(prevButton)) {
-                            currentButton = finalButtonGrid[row - 1][col];
-                            if ()
-                            prevButton = finalButtonGrid[row][col];
-                            currentButton = finalButtonGrid[row - 1][col];
+                    currentButtonText = currentButton.getText().toString();
+
+                    // For |
+                    if (currentButtonText.equals("|")) {
+                        if (currentDirection.equals("north") && row - 1 >= 0)
+                            currentButton = finalButtonGrid[row--][col];
+                        else if (currentDirection.equals("south") && row + 1 <= 5) {
+                            currentButton = finalButtonGrid[row++][col];
                         }
-                        else if (row + 1 <= 6 && !finalButtonGrid[row + 1][col].equals(prevButton)) {
-                            prevButton = finalButtonGrid[row][col];
-                            currentButton = finalButtonGrid[row + 1][col];
+                        else
+                            break;
+                    }
+
+                    // For -
+                    else if (currentButtonText.equals("-")) {
+                        if (currentDirection.equals("east") && col + 1 <= 5)
+                            currentButton = finalButtonGrid[row][col++];
+                        else if (currentButton.equals("west") && col - 1 >= 0)
+                            currentButton = finalButtonGrid[row][col--];
+                        else
+                            break;
+                    }
+
+                    // For _|
+                    else if (currentButtonText.equals("_|")) {
+                        if (currentDirection.equals("east") && row - 1 >= 0) {
+                            currentButton = finalButtonGrid[row--][col];
+                            currentDirection = "north";
                         }
+                        else if (currentDirection.equals("south") && col - 1 >= 0) {
+                            currentButton = finalButtonGrid[row][col--];
+                            currentDirection = "west";
+                        }
+                        else
+                            break;
+                    }
+
+                    // For |_
+                    else if (currentButtonText.equals("|_")) {
+                        if (currentDirection.equals("west") && row - 1 >= 0) {
+                            currentButton = finalButtonGrid[row--][col];
+                            currentDirection = "north";
+                        }
+                        else if (currentDirection.equals("south") && col + 1 <= 5) {
+                            currentButton = finalButtonGrid[row][col++];
+                            currentDirection = "east";
+                        }
+                        else
+                            break;
+                    }
+
+                    // For |-
+                    else if (currentButtonText.equals("|-")) {
+                        ((Button) v).setText("Fail");
+                        if (currentDirection.equals("north") && col + 1 <= 5) {
+                            currentButton = finalButtonGrid[row][col++];
+                            currentDirection = "east";
+                        }
+                        else if (currentDirection.equals("west") && row + 1 <= 5) {
+                            currentButton = finalButtonGrid[row++][col];
+                            currentDirection = "south";
+                        }
+                        else
+                            break;
+                    }
+
+                    // For -|
+                    else if (currentButtonText.equals("-|")) {
+                        if (currentDirection.equals("north") && col - 1 >= 0) {
+                            currentButton = finalButtonGrid[row][col--];
+                            currentDirection = "west";
+                        }
+                        else if (currentDirection.equals("east") && row + 1 <= 5) {
+                            currentButton = finalButtonGrid[row++][col];
+                            currentDirection = "south";
+                        }
+                        else
+                            break;
+                    }
+                    else if (finalButtonGrid[row][col].getText().toString().equals("?"))
                         break;
-                    }
-                    else if (currentButton.getText().toString().equals(actions[1])) {
-                        if (prevCommand.equals("")) {
-                            prevCommand = currentCommand;
-                            currentCommand = finalChoice[row][col++];
-                        }
-                        else {
-                            if (finalChoice[row][col - 1].equals(prevCommand))
-                                currentCommand = finalChoice[row][col++];
-                            else
-                                currentCommand = finalChoice[row][col--];
-                            prevCommand = currentCommand;
-                        }
-                    }
-                    else if (currentButton.getText().toString().equals(actions[2])) {
-                        if (prevCommand.equals("")) {
-                            prevCommand = currentCommand;
-                            currentCommand = finalChoice[row][col];
-                        }
-                    }
-                    else if (currentButton.getText().toString().equals(actions[3])) {
-
-                    }
-                    else if (currentButton.getText().toString().equals(actions[4])) {
-
-                    }
-                    else if (currentButton.getText().toString().equals(actions[5])) {
-                        if (prevCommand.equals("")) {
-                            prevCommand = currentCommand;
-                            currentCommand = finalChoice[row++][col];
-                        }
-                    }
                 }
                 if (row == 5 && col == 4)
-
+                    ((Button) v).setText("You Won!");
+                //else
+                   // ((Button) v).setText(row + " " + col);
             }
         });
 
