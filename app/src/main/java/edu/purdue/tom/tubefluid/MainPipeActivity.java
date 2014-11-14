@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.Arrays;
 
 
@@ -142,13 +141,12 @@ public class MainPipeActivity extends Activity {
                 String currentDirection = "east";
                 while(true) {
                     currentButtonText = currentButton.getText().toString();
-
                     // For |
                     if (currentButtonText.equals("|")) {
                         if (currentDirection.equals("north") && row - 1 >= 0)
-                            currentButton = finalButtonGrid[row--][col];
+                            currentButton = finalButtonGrid[--row][col];
                         else if (currentDirection.equals("south") && row + 1 <= 5) {
-                            currentButton = finalButtonGrid[row++][col];
+                            currentButton = finalButtonGrid[++row][col];
                         }
                         else
                             break;
@@ -157,9 +155,9 @@ public class MainPipeActivity extends Activity {
                     // For -
                     else if (currentButtonText.equals("-")) {
                         if (currentDirection.equals("east") && col + 1 <= 5)
-                            currentButton = finalButtonGrid[row][col++];
+                            currentButton = finalButtonGrid[row][++col];
                         else if (currentButton.equals("west") && col - 1 >= 0)
-                            currentButton = finalButtonGrid[row][col--];
+                            currentButton = finalButtonGrid[row][--col];
                         else
                             break;
                     }
@@ -167,11 +165,11 @@ public class MainPipeActivity extends Activity {
                     // For _|
                     else if (currentButtonText.equals("_|")) {
                         if (currentDirection.equals("east") && row - 1 >= 0) {
-                            currentButton = finalButtonGrid[row--][col];
+                            currentButton = finalButtonGrid[--row][col];
                             currentDirection = "north";
                         }
                         else if (currentDirection.equals("south") && col - 1 >= 0) {
-                            currentButton = finalButtonGrid[row][col--];
+                            currentButton = finalButtonGrid[row][--col];
                             currentDirection = "west";
                         }
                         else
@@ -181,11 +179,11 @@ public class MainPipeActivity extends Activity {
                     // For |_
                     else if (currentButtonText.equals("|_")) {
                         if (currentDirection.equals("west") && row - 1 >= 0) {
-                            currentButton = finalButtonGrid[row--][col];
+                            currentButton = finalButtonGrid[--row][col];
                             currentDirection = "north";
                         }
                         else if (currentDirection.equals("south") && col + 1 <= 5) {
-                            currentButton = finalButtonGrid[row][col++];
+                            currentButton = finalButtonGrid[row][++col];
                             currentDirection = "east";
                         }
                         else
@@ -196,11 +194,11 @@ public class MainPipeActivity extends Activity {
                     else if (currentButtonText.equals("|-")) {
                         ((Button) v).setText("Fail");
                         if (currentDirection.equals("north") && col + 1 <= 5) {
-                            currentButton = finalButtonGrid[row][col++];
+                            currentButton = finalButtonGrid[row][++col];
                             currentDirection = "east";
                         }
                         else if (currentDirection.equals("west") && row + 1 <= 5) {
-                            currentButton = finalButtonGrid[row++][col];
+                            currentButton = finalButtonGrid[++row][col];
                             currentDirection = "south";
                         }
                         else
@@ -210,23 +208,24 @@ public class MainPipeActivity extends Activity {
                     // For -|
                     else if (currentButtonText.equals("-|")) {
                         if (currentDirection.equals("north") && col - 1 >= 0) {
-                            currentButton = finalButtonGrid[row][col--];
+                            currentButton = finalButtonGrid[row][--col];
                             currentDirection = "west";
                         }
                         else if (currentDirection.equals("east") && row + 1 <= 5) {
-                            currentButton = finalButtonGrid[row++][col];
+                            currentButton = finalButtonGrid[++row][col];
                             currentDirection = "south";
                         }
                         else
                             break;
                     }
+
                     else if (finalButtonGrid[row][col].getText().toString().equals("?"))
                         break;
                 }
                 if (row == 5 && col == 4)
                     ((Button) v).setText("You Won!");
-                //else
-                   // ((Button) v).setText(row + " " + col);
+                else
+                   ((Button) v).setText("You Lost");
             }
         });
 
