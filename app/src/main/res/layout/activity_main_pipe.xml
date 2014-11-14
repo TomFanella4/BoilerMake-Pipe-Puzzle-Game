@@ -46,4 +46,14 @@ tools:context=".MainPipeActivity">
         android:layout_above="@+id/buttonToBeSwapped"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/timerView"
+        android:textSize="25dp"
+        android:layout_alignBottom="@+id/finished"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package edu.purdue.tom.tubefluid;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -95,9 +96,24 @@ public class MainPipeActivity extends Activity {
             tubeTable.addView(tr);
         }
 
+        final TextView timerView = (TextView) findViewById(R.id.timerView);
         final Button[][] finalButtonGrid = buttonGrid;
+        final Button finish = (Button) findViewById(R.id.finished);
         final Button switchButton = (Button) findViewById(R.id.buttonToBeSwapped);
         final TextView prevButtonCoord = (TextView) findViewById(R.id.prevButtonCoord);
+
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timerView.setText("Time Remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                timerView.setText("Times Up!");
+                if (!finish.getText().toString().equals("You Won!"))
+                    finish.setText("You Lost");
+            }
+        }.start();
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -128,8 +144,6 @@ public class MainPipeActivity extends Activity {
                 });
             }
         }
-
-        Button finish = (Button) findViewById(R.id.finished);
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,9 +236,9 @@ public class MainPipeActivity extends Activity {
                     else if (finalButtonGrid[row][col].getText().toString().equals("?"))
                         break;
                 }
-                if (row == 5 && col == 4)
+                if (row == 5 && col == 4 && !(((Button) v).getText().toString().equals("You Lost")))
                     ((Button) v).setText("You Won!");
-                else
+                else if (!((Button) v).getText().toString().equals("You Won!"))
                    ((Button) v).setText("You Lost");
             }
         });
